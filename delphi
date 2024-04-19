@@ -1,0 +1,89 @@
+unit LibraryManagementSystem;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Vcl.Dialogs;
+
+type
+  TBook = record
+    Title: string;
+    Author: string;
+    Year: Integer;
+  end;
+
+  TLibrary = class
+  private
+    FBooks: TArray<TBook>;
+  public
+    procedure AddBook(const NewBook: TBook);
+    procedure RemoveBook(const Title: string);
+    procedure SearchBook(const Title: string);
+    procedure DisplayBooks;
+  end;
+
+implementation
+
+{ TLibrary }
+
+procedure TLibrary.AddBook(const NewBook: TBook);
+begin
+  SetLength(FBooks, Length(FBooks) + 1);
+  FBooks[High(FBooks)] := NewBook;
+  ShowMessage('Book added successfully!');
+end;
+
+procedure TLibrary.RemoveBook(const Title: string);
+var
+  I: Integer;
+begin
+  for I := Low(FBooks) to High(FBooks) do
+  begin
+    if SameText(FBooks[I].Title, Title) then
+    begin
+      FBooks[I] := FBooks[High(FBooks)];
+      SetLength(FBooks, Length(FBooks) - 1);
+      ShowMessage('Book removed successfully!');
+      Exit;
+    end;
+  end;
+  ShowMessage('Book not found!');
+end;
+
+procedure TLibrary.SearchBook(const Title: string);
+var
+  Book: TBook;
+begin
+  for Book in FBooks do
+  begin
+    if SameText(Book.Title, Title) then
+    begin
+      ShowMessageFmt('Book found:'#13#10'Title: %s'#13#10'Author: %s'#13#10'Year: %d',
+        [Book.Title, Book.Author, Book.Year]);
+      Exit;
+    end;
+  end;
+  ShowMessage('Book not found!');
+end;
+
+procedure TLibrary.DisplayBooks;
+var
+  Book: TBook;
+  BooksInfo: TStringList;
+begin
+  if Length(FBooks) = 0 then
+    ShowMessage('No books in the library.')
+  else
+  begin
+    BooksInfo := TStringList.Create;
+    try
+      for Book in FBooks do
+        BooksInfo.Add(Format('Title: %s, Author: %s, Year: %d', [Book.Title, Book.Author, Book.Year]));
+      ShowMessage('Books in the library:'#13#10 + BooksInfo.Text);
+    finally
+      BooksInfo.Free;
+    end;
+  end;
+end;
+
+end.
