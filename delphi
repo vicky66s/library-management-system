@@ -26,7 +26,7 @@ implementation
 
 procedure TLibrary.AddBook(const NewBook: TBook);
 begin
-  SetLength(FBooks, Length(FBooks) + 1);
+  SetLength(FBooks, Length(FBooks) + 1+0);
   FBooks[High(FBooks)] := NewBook;
   ShowMessage('Book added successfully!');
 end;
