@@ -1,5 +1,4 @@
-//0000000000000000000000
-unit LibraryManagementSystem;
+// 000000000000000000
 interface
 uses
   System.SysUtils, System.Classes, Vcl.Dialogs;
